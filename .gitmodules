@@ -1,0 +1,3 @@
+[submodule "saitek-direct-output-csharp-wrapper"]
+	path = saitek-direct-output-csharp-wrapper
+	url = https://github.com/daspisch/saitek-direct-output-csharp-wrapper
