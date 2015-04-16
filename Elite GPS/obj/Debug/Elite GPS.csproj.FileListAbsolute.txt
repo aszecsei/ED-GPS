@@ -1,1 +1,8 @@
 D:\dev\Elite GPS\Elite GPS\bin\Debug\Elite GPS.exe.config
+D:\dev\Elite GPS\Elite GPS\bin\Debug\Elite GPS.exe
+D:\dev\Elite GPS\Elite GPS\bin\Debug\Elite GPS.pdb
+D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite GPS.csprojResolveAssemblyReference.cache
+D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite_GPS.Properties.Resources.resources
+D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite GPS.csproj.GenerateResource.Cache
+D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite GPS.exe
+D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite GPS.pdb
