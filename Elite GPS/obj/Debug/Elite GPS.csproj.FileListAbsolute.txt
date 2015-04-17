@@ -10,3 +10,4 @@ D:\dev\Elite GPS\Elite GPS\bin\Debug\DirectInputCSharpWrapper.dll
 D:\dev\Elite GPS\Elite GPS\bin\Debug\DirectInputCSharpWrapper.pdb
 D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite_GPS.Form1.resources
 D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite_GPS.AboutForm.resources
+D:\dev\Elite GPS\Elite GPS\bin\Debug\Newtonsoft.Json.dll
