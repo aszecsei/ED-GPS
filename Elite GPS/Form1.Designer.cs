@@ -58,6 +58,8 @@
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startRouteButton = new System.Windows.Forms.Button();
+            this.stopRouteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.purchaseCommodityAmountBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sellCommodityAmountBox)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -70,7 +72,7 @@
             this.locationsListBox.FormattingEnabled = true;
             this.locationsListBox.Location = new System.Drawing.Point(443, 41);
             this.locationsListBox.Name = "locationsListBox";
-            this.locationsListBox.Size = new System.Drawing.Size(349, 407);
+            this.locationsListBox.Size = new System.Drawing.Size(349, 329);
             this.locationsListBox.TabIndex = 0;
             this.locationsListBox.SelectedIndexChanged += new System.EventHandler(this.locationsListBox_SelectedIndexChanged);
             // 
@@ -363,12 +365,36 @@
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // startRouteButton
+            // 
+            this.startRouteButton.Enabled = false;
+            this.startRouteButton.Location = new System.Drawing.Point(488, 387);
+            this.startRouteButton.Name = "startRouteButton";
+            this.startRouteButton.Size = new System.Drawing.Size(99, 55);
+            this.startRouteButton.TabIndex = 23;
+            this.startRouteButton.Text = "Start Route";
+            this.startRouteButton.UseVisualStyleBackColor = true;
+            this.startRouteButton.Click += new System.EventHandler(this.startRouteButton_Click);
+            // 
+            // stopRouteButton
+            // 
+            this.stopRouteButton.Enabled = false;
+            this.stopRouteButton.Location = new System.Drawing.Point(631, 387);
+            this.stopRouteButton.Name = "stopRouteButton";
+            this.stopRouteButton.Size = new System.Drawing.Size(99, 55);
+            this.stopRouteButton.TabIndex = 24;
+            this.stopRouteButton.Text = "Stop Route";
+            this.stopRouteButton.UseVisualStyleBackColor = true;
+            this.stopRouteButton.Click += new System.EventHandler(this.stopRouteButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(810, 462);
+            this.Controls.Add(this.stopRouteButton);
+            this.Controls.Add(this.startRouteButton);
             this.Controls.Add(this.moveDownButton);
             this.Controls.Add(this.moveUpButton);
             this.Controls.Add(this.deleteLocationButton);
@@ -430,6 +456,8 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.Button startRouteButton;
+        private System.Windows.Forms.Button stopRouteButton;
 
     }
 }

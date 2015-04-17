@@ -187,5 +187,15 @@ namespace Elite_GPS
                 stationBox.Text = "";
             }
         }
+
+        private void startRouteButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void stopRouteButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
