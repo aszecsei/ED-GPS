@@ -29,6 +29,7 @@ namespace Elite_GPS
 
         private List<EDDBSystem> systems;
         private List<EDDBStation> stations;
+        private List<EDDBCommodity> commodities;
 
         private bool runningRoute;
 
@@ -162,14 +163,15 @@ namespace Elite_GPS
         {
             if (systemBox.SelectedItem != null && stations != null)
             {
+                Console.WriteLine("Bloop!");
                 List<EDDBStation> stationsInSystem = stations.Where(station => (station.system_id == ((EDDBSystem)systemBox.SelectedItem).id)).ToList();
                 if(stationsInSystem != null)
                 {
-                    stationsInSystem.Insert(0, null);
+                    stationsInSystem.Insert(0, new EDDBStation());
                     stationBox.DataSource = new BindingList<EDDBStation>(stationsInSystem);
                     stationBox.DisplayMember = "name";
                     stationBox.Update();
-                    if (stationsInSystem.Count > 0)
+                    if (stationsInSystem.Count > 1)
                         stationBox.Enabled = true;
                     else
                         stationBox.Enabled = false;
@@ -188,18 +190,30 @@ namespace Elite_GPS
                 stationBox.DataSource = null;
                 stationBox.Update();
             }
+
+            locationsListBox.Update();
         }
 
         private void stationBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(stationBox.SelectedItem != null)
+            if(stationBox.SelectedItem != null && ((EDDBStation)stationBox.SelectedItem).name != null)
             {
                 ((Location)locationsListBox.SelectedItem).Station = ((EDDBStation)stationBox.SelectedItem).name;
                 
                 // Enable trading!
                 purchaseBox.Enabled = true;
                 sellBox.Enabled = true;
+
+                purchaseCommodityBox.DataSource = new BindingList<EDDBCommodity>(commodities);
+                purchaseCommodityBox.DisplayMember = "name";
+                purchaseCommodityBox.Text = "";
+
+                sellCommodityBox.DataSource = new BindingList<EDDBCommodity>(commodities);
+                sellCommodityBox.DisplayMember = "name";
+                sellCommodityBox.Text = "";
             }
+
+            locationsListBox.Update();
         }
 
         private void purchaseBox_CheckedChanged(object sender, EventArgs e)
@@ -209,6 +223,7 @@ namespace Elite_GPS
             {
                 purchaseCommodityAmountBox.Enabled = true;
                 purchaseCommodityBox.Enabled = true;
+                purchaseCommodityBox.Text = commodities[0].name;
             }
             else
             {
@@ -236,6 +251,7 @@ namespace Elite_GPS
             {
                 sellCommodityAmountBox.Enabled = true;
                 sellCommodityBox.Enabled = true;
+                sellCommodityBox.Text = commodities[0].name;
             }
             else
             {
@@ -316,19 +332,26 @@ namespace Elite_GPS
                 webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(downloadProgressChanged);
                 webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(station_DownloadStringCompleted);
 
-                webClient.DownloadStringAsync(new Uri("http://eddb.io/archive/v3/stations.json"), "stations");
+                webClient.DownloadStringAsync(new Uri("http://eddb.io/archive/v3/stations_lite.json"), "stations");
             } 
-        }
-
-        void station_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            loadingDataProgressBar.Maximum = (int)e.TotalBytesToReceive / 100;
-            loadingDataProgressBar.Value = (int)e.BytesReceived / 100;
         }
 
         void station_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             stations = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EDDBStation>>(e.Result);
+
+            using (var webClient = new System.Net.WebClient())
+            {
+                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(downloadProgressChanged);
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(commodity_DownloadStringCompleted);
+
+                webClient.DownloadStringAsync(new Uri("http://eddb.io/archive/v3/commodities.json"), "commodities");
+            } 
+        }
+
+        void commodity_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            commodities = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EDDBCommodity>>(e.Result);
 
             this.Invoke((MethodInvoker)delegate
             {

@@ -67,6 +67,7 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EDDBCommodity.cs" />
     <Compile Include="EDDBListing.cs" />
     <Compile Include="EDDBStation.cs" />
     <Compile Include="EDDBSystem.cs" />
