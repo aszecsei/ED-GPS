@@ -24,6 +24,9 @@ namespace Elite_GPS
 
         private Location selectedLocation = null;
 
+        private string currentSystem = "";
+        private string currentLocation = "";
+
         public Form1()
         {
             InitializeComponent();
@@ -48,18 +51,20 @@ namespace Elite_GPS
             {
                 if(x52.SetText(1, "CMDR " + args.Commander))
                 {
-                    _speechSynthesizer.SpeakAsync("Welcome Commander " + args.Commander);
+                    _speechSynthesizer.Speak("Welcome Commander " + args.Commander + ".");
                 }
             }
 
             if (args.System != null)
             {
-                x52.SetText(2, "System: " + args.System);
-            }
-
-            if (args.Target != null)
-            {
-                x52.SetText(3, "Location: " + args.Target);
+                if (x52.SetText(2, args.System + " (" + args.Target + ")"))
+                {
+                    // Our location has changed
+                    if(args.System != currentSystem)
+                        _speechSynthesizer.Speak("Your new system is " + args.System + ".");
+                    if(args.Target != currentLocation)
+                        _speechSynthesizer.Speak("Your new location is " + args.Target + ".");
+                }
             }
 
             /*
@@ -68,6 +73,11 @@ namespace Elite_GPS
                 x52.SetText(3, Regex.Replace(args.PlayMode, @"\b(\w)", m => m.Value.ToUpper()));
             }
             */
+        }
+
+        private void CalculateNextJump()
+        {
+
         }
 
         private void OnFormClose(object sender, EventArgs e)
