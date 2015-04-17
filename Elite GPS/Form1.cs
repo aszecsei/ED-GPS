@@ -77,6 +77,8 @@ namespace Elite_GPS
                             _speechSynthesizer.Speak("Your new system is " + args.System + ".");
                         if (args.Target != currentLocation)
                             _speechSynthesizer.Speak("Your new location is " + args.Target + ".");
+
+                        CalculateNextJump();
                     }
                 }
             }
@@ -129,17 +131,31 @@ namespace Elite_GPS
 
         private void deleteLocationButton_Click(object sender, EventArgs e)
         {
-
+            locations.RemoveAt(locationsListBox.SelectedIndex);
         }
 
         private void moveUpButton_Click(object sender, EventArgs e)
         {
-
+            if(locationsListBox.SelectedIndex > 0)
+            {
+                Location temp = locations[locationsListBox.SelectedIndex - 1];
+                locations[locationsListBox.SelectedIndex - 1] = locations[locationsListBox.SelectedIndex];
+                locations[locationsListBox.SelectedIndex] = temp;
+                locationsListBox.SelectedIndex--;
+                locationsListBox.Update();
+            }
         }
 
         private void moveDownButton_Click(object sender, EventArgs e)
         {
-
+            if (locationsListBox.SelectedIndex < locations.Count - 1)
+            {
+                Location temp = locations[locationsListBox.SelectedIndex + 1];
+                locations[locationsListBox.SelectedIndex + 1] = locations[locationsListBox.SelectedIndex];
+                locations[locationsListBox.SelectedIndex] = temp;
+                locationsListBox.SelectedIndex++;
+                locationsListBox.Update();
+            }
         }
 
         private void systemBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -181,38 +197,63 @@ namespace Elite_GPS
                 ((Location)locationsListBox.SelectedItem).Station = ((EDDBStation)stationBox.SelectedItem).name;
                 
                 // Enable trading!
-
+                purchaseBox.Enabled = true;
+                sellBox.Enabled = true;
             }
         }
 
         private void purchaseBox_CheckedChanged(object sender, EventArgs e)
         {
-
+            ((Location)locationsListBox.SelectedItem).Buy = purchaseBox.Checked;
+            if(purchaseBox.Checked)
+            {
+                purchaseCommodityAmountBox.Enabled = true;
+                purchaseCommodityBox.Enabled = true;
+            }
+            else
+            {
+                purchaseCommodityAmountBox.Enabled = false;
+                purchaseCommodityAmountBox.Value = 0;
+                purchaseCommodityBox.Enabled = false;
+                purchaseCommodityBox.Text = "";
+            }
         }
 
         private void purchaseCommodityBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            ((Location)locationsListBox.SelectedItem).BuyCommodityName = purchaseCommodityBox.SelectedText;
         }
 
         private void purchaseCommodityAmountBox_ValueChanged(object sender, EventArgs e)
         {
-
+            ((Location)locationsListBox.SelectedItem).BuyCommodityAmount = (int)purchaseCommodityAmountBox.Value;
         }
 
         private void sellBox_CheckedChanged(object sender, EventArgs e)
         {
-
+            ((Location)locationsListBox.SelectedItem).Sell = sellBox.Checked;
+            if (sellBox.Checked)
+            {
+                sellCommodityAmountBox.Enabled = true;
+                sellCommodityBox.Enabled = true;
+            }
+            else
+            {
+                sellCommodityAmountBox.Enabled = false;
+                sellCommodityAmountBox.Value = 0;
+                sellCommodityBox.Enabled = false;
+                sellCommodityBox.Text = "";
+            }
         }
 
         private void sellCommodityBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            ((Location)locationsListBox.SelectedItem).SellCommodityName = sellCommodityBox.SelectedText;
         }
 
         private void sellCommodityAmountBox_ValueChanged(object sender, EventArgs e)
         {
-
+            ((Location)locationsListBox.SelectedItem).SellCommodityAmount = (int)sellCommodityAmountBox.Value;
         }
 
         private void locationsListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -220,31 +261,14 @@ namespace Elite_GPS
             UpdateLocationData();
         }
 
-        private void UpdateLocationData()
-        {
-            Location selectedLocation = (Location)locationsListBox.SelectedItem;
-            systemBox.Enabled = true;
-            systemBox.Text = selectedLocation.System;
-            if(selectedLocation.System != "")
-            {
-                stationBox.Enabled = true;
-                stationBox.Text = selectedLocation.Station;
-            }
-            else
-            {
-                stationBox.Enabled = false;
-                stationBox.Text = "";
-            }
-        }
-
         private void startRouteButton_Click(object sender, EventArgs e)
         {
-
+            runningRoute = true;
         }
 
         private void stopRouteButton_Click(object sender, EventArgs e)
         {
-
+            runningRoute = false;
         }
 
         private void loadDataButton_Click(object sender, EventArgs e)
@@ -313,6 +337,22 @@ namespace Elite_GPS
                 addLocationButton.Enabled = true;
                 Cursor.Current = Cursors.Default;
             });
+        }
+
+        private void UpdateLocationData()
+        {
+            Location selectedLocation = (Location)locationsListBox.SelectedItem;
+            systemBox.Enabled = true;
+            systemBox.Text = selectedLocation.System;
+            if (selectedLocation.System != "")
+            {
+                stationBox.Enabled = true;
+                stationBox.Text = selectedLocation.Station;
+            }
+            else
+            {
+                stationBox.Text = "";
+            }
         }
     }
 }
