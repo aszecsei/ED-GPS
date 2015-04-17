@@ -6,3 +6,7 @@ D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite_GPS.Properties.Resources.resources
 D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite GPS.csproj.GenerateResource.Cache
 D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite GPS.exe
 D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite GPS.pdb
+D:\dev\Elite GPS\Elite GPS\bin\Debug\DirectInputCSharpWrapper.dll
+D:\dev\Elite GPS\Elite GPS\bin\Debug\DirectInputCSharpWrapper.pdb
+D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite_GPS.Form1.resources
+D:\dev\Elite GPS\Elite GPS\obj\Debug\Elite_GPS.AboutForm.resources
