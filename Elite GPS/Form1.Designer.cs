@@ -384,7 +384,6 @@
             // 
             // startRouteButton
             // 
-            this.startRouteButton.Enabled = false;
             this.startRouteButton.Location = new System.Drawing.Point(488, 387);
             this.startRouteButton.Name = "startRouteButton";
             this.startRouteButton.Size = new System.Drawing.Size(99, 55);

@@ -87,7 +87,7 @@ namespace Elite_GPS
                 args.PlayMode = match.Groups[2].Value;
                 args.System = match.Groups[4].Value;
                 args.Target = match.Groups[3].Value;
-                if (!args.Target.Contains(args.System) || (args.Target.Length - args.System.Length) > 2)
+                if (args.Target.Contains(args.System) && ((args.Target.Length - args.System.Length) > 2 || (args.Target.Length - args.System.Length) == 0))
                     args.Target = "Supercruise";
                 OnDataUpdated(args);
             }

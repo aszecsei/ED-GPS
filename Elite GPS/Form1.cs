@@ -79,6 +79,9 @@ namespace Elite_GPS
                         if (args.Target != currentLocation)
                             _speechSynthesizer.Speak("Your new location is " + args.Target + ".");
 
+                        currentSystem = args.System;
+                        currentLocation = args.Target;
+
                         CalculateNextJump();
                     }
                 }
@@ -280,11 +283,15 @@ namespace Elite_GPS
         private void startRouteButton_Click(object sender, EventArgs e)
         {
             runningRoute = true;
+            stopRouteButton.Enabled = true;
+            startRouteButton.Enabled = false;
         }
 
         private void stopRouteButton_Click(object sender, EventArgs e)
         {
             runningRoute = false;
+            stopRouteButton.Enabled = false;
+            startRouteButton.Enabled = true;
         }
 
         private void loadDataButton_Click(object sender, EventArgs e)
