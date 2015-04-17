@@ -348,6 +348,23 @@ namespace Elite_GPS
             {
                 stationBox.Enabled = true;
                 stationBox.Text = selectedLocation.Station;
+
+                purchaseBox.Enabled = true;
+                sellBox.Enabled = true;
+
+                if(selectedLocation.Buy)
+                {
+                    purchaseBox.Checked = true;
+                    purchaseCommodityAmountBox.Value = selectedLocation.BuyCommodityAmount;
+                    purchaseCommodityBox.Text = selectedLocation.BuyCommodityName;
+                }
+
+                if(selectedLocation.Sell)
+                {
+                    sellBox.Checked = true;
+                    sellCommodityAmountBox.Value = selectedLocation.SellCommodityAmount;
+                    sellCommodityBox.Text = selectedLocation.SellCommodityName;
+                }
             }
             else
             {
