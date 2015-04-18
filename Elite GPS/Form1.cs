@@ -22,7 +22,7 @@ namespace Elite_GPS
         private SpeechSynthesizer _speechSynthesizer;
         private LogMonitor monitor;
 
-        private BindingList<Location> locations;
+        private BindingList<Location> route;
 
         private string currentSystem = "";
         private string currentLocation = "";
@@ -37,13 +37,9 @@ namespace Elite_GPS
         {
             InitializeComponent();
 
-            locations = new BindingList<Location>();
-            locationsListBox.DataSource = locations;
+            route = new BindingList<Location>();
+            locationsListBox.DataSource = route;
             locationsListBox.DisplayMember = "Display";
-
-            systems = new List<EDDBSystem>();
-            systemBox.DataSource = systems;
-            systemBox.DisplayMember = "name";
 
             runningRoute = false;
 
@@ -79,13 +75,16 @@ namespace Elite_GPS
                         if (args.Target != currentLocation)
                             _speechSynthesizer.Speak("Your new location is " + args.Target + ".");
 
-                        currentSystem = args.System;
-                        currentLocation = args.Target;
-
                         CalculateNextJump();
                     }
                 }
             }
+
+            x52.SetText(1, "CMDR " + args.Commander);
+            x52.SetText(2, args.System + " (" + args.Target + ")");
+
+            currentSystem = args.System;
+            currentLocation = args.Target;
         }
 
         private void CalculateNextJump()
@@ -128,23 +127,22 @@ namespace Elite_GPS
 
         private void addLocationButton_Click(object sender, EventArgs e)
         {
-            locations.Add(new Location());
-            locationsListBox.SelectedIndex = locations.Count - 1;
-            UpdateLocationData();
+            route.Add(new Location());
+            locationsListBox.SelectedIndex = route.Count - 1;
         }
 
         private void deleteLocationButton_Click(object sender, EventArgs e)
         {
-            locations.RemoveAt(locationsListBox.SelectedIndex);
+            route.RemoveAt(locationsListBox.SelectedIndex);
         }
 
         private void moveUpButton_Click(object sender, EventArgs e)
         {
             if(locationsListBox.SelectedIndex > 0)
             {
-                Location temp = locations[locationsListBox.SelectedIndex - 1];
-                locations[locationsListBox.SelectedIndex - 1] = locations[locationsListBox.SelectedIndex];
-                locations[locationsListBox.SelectedIndex] = temp;
+                Location temp = route[locationsListBox.SelectedIndex - 1];
+                route[locationsListBox.SelectedIndex - 1] = route[locationsListBox.SelectedIndex];
+                route[locationsListBox.SelectedIndex] = temp;
                 locationsListBox.SelectedIndex--;
                 locationsListBox.Update();
             }
@@ -152,132 +150,15 @@ namespace Elite_GPS
 
         private void moveDownButton_Click(object sender, EventArgs e)
         {
-            if (locationsListBox.SelectedIndex < locations.Count - 1)
+            if (locationsListBox.SelectedIndex < route.Count - 1)
             {
-                Location temp = locations[locationsListBox.SelectedIndex + 1];
-                locations[locationsListBox.SelectedIndex + 1] = locations[locationsListBox.SelectedIndex];
-                locations[locationsListBox.SelectedIndex] = temp;
+                Location temp = route[locationsListBox.SelectedIndex + 1];
+                route[locationsListBox.SelectedIndex + 1] = route[locationsListBox.SelectedIndex];
+                route[locationsListBox.SelectedIndex] = temp;
                 locationsListBox.SelectedIndex++;
                 locationsListBox.Update();
+                locationsListBox.Refresh();
             }
-        }
-
-        private void systemBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (systemBox.SelectedItem != null && stations != null)
-            {
-                Console.WriteLine("Bloop!");
-                List<EDDBStation> stationsInSystem = stations.Where(station => (station.system_id == ((EDDBSystem)systemBox.SelectedItem).id)).ToList();
-                if(stationsInSystem != null)
-                {
-                    stationsInSystem.Insert(0, new EDDBStation());
-                    stationBox.DataSource = new BindingList<EDDBStation>(stationsInSystem);
-                    stationBox.DisplayMember = "name";
-                    stationBox.Update();
-                    if (stationsInSystem.Count > 1)
-                        stationBox.Enabled = true;
-                    else
-                        stationBox.Enabled = false;
-                }
-                else
-                {
-                    stationBox.DataSource = null;
-                    stationBox.Update();
-                    stationBox.Enabled = false;
-                }
-
-                ((Location)locationsListBox.SelectedItem).System = ((EDDBSystem)systemBox.SelectedItem).name;
-            }
-            else
-            {
-                stationBox.DataSource = null;
-                stationBox.Update();
-            }
-
-            locationsListBox.Update();
-        }
-
-        private void stationBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(stationBox.SelectedItem != null && ((EDDBStation)stationBox.SelectedItem).name != null)
-            {
-                ((Location)locationsListBox.SelectedItem).Station = ((EDDBStation)stationBox.SelectedItem).name;
-                
-                // Enable trading!
-                purchaseBox.Enabled = true;
-                sellBox.Enabled = true;
-
-                purchaseCommodityBox.DataSource = new BindingList<EDDBCommodity>(commodities);
-                purchaseCommodityBox.DisplayMember = "name";
-                purchaseCommodityBox.Text = "";
-
-                sellCommodityBox.DataSource = new BindingList<EDDBCommodity>(commodities);
-                sellCommodityBox.DisplayMember = "name";
-                sellCommodityBox.Text = "";
-            }
-
-            locationsListBox.Update();
-        }
-
-        private void purchaseBox_CheckedChanged(object sender, EventArgs e)
-        {
-            ((Location)locationsListBox.SelectedItem).Buy = purchaseBox.Checked;
-            if(purchaseBox.Checked)
-            {
-                purchaseCommodityAmountBox.Enabled = true;
-                purchaseCommodityBox.Enabled = true;
-                purchaseCommodityBox.Text = commodities[0].name;
-            }
-            else
-            {
-                purchaseCommodityAmountBox.Enabled = false;
-                purchaseCommodityAmountBox.Value = 0;
-                purchaseCommodityBox.Enabled = false;
-                purchaseCommodityBox.Text = "";
-            }
-        }
-
-        private void purchaseCommodityBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ((Location)locationsListBox.SelectedItem).BuyCommodityName = purchaseCommodityBox.SelectedText;
-        }
-
-        private void purchaseCommodityAmountBox_ValueChanged(object sender, EventArgs e)
-        {
-            ((Location)locationsListBox.SelectedItem).BuyCommodityAmount = (int)purchaseCommodityAmountBox.Value;
-        }
-
-        private void sellBox_CheckedChanged(object sender, EventArgs e)
-        {
-            ((Location)locationsListBox.SelectedItem).Sell = sellBox.Checked;
-            if (sellBox.Checked)
-            {
-                sellCommodityAmountBox.Enabled = true;
-                sellCommodityBox.Enabled = true;
-                sellCommodityBox.Text = commodities[0].name;
-            }
-            else
-            {
-                sellCommodityAmountBox.Enabled = false;
-                sellCommodityAmountBox.Value = 0;
-                sellCommodityBox.Enabled = false;
-                sellCommodityBox.Text = "";
-            }
-        }
-
-        private void sellCommodityBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ((Location)locationsListBox.SelectedItem).SellCommodityName = sellCommodityBox.SelectedText;
-        }
-
-        private void sellCommodityAmountBox_ValueChanged(object sender, EventArgs e)
-        {
-            ((Location)locationsListBox.SelectedItem).SellCommodityAmount = (int)sellCommodityAmountBox.Value;
-        }
-
-        private void locationsListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            UpdateLocationData();
         }
 
         private void startRouteButton_Click(object sender, EventArgs e)
@@ -364,41 +245,68 @@ namespace Elite_GPS
             {
                 systemBox.Update();
                 loadDataButton.Text = "Data Loaded";
-                addLocationButton.Enabled = true;
                 Cursor.Current = Cursors.Default;
             });
         }
 
-        private void UpdateLocationData()
+        private void Update()
         {
-            Location selectedLocation = (Location)locationsListBox.SelectedItem;
-            systemBox.Enabled = true;
-            systemBox.Text = selectedLocation.System;
-            if (selectedLocation.System != "")
+            if(locationsListBox.SelectedIndex > -1)
             {
-                stationBox.Enabled = true;
-                stationBox.Text = selectedLocation.Station;
-
-                purchaseBox.Enabled = true;
-                sellBox.Enabled = true;
-
-                if(selectedLocation.Buy)
+                if(systemBox.Text != "")
                 {
-                    purchaseBox.Checked = true;
-                    purchaseCommodityAmountBox.Value = selectedLocation.BuyCommodityAmount;
-                    purchaseCommodityBox.Text = selectedLocation.BuyCommodityName;
+
                 }
-
-                if(selectedLocation.Sell)
+                else
                 {
-                    sellBox.Checked = true;
-                    sellCommodityAmountBox.Value = selectedLocation.SellCommodityAmount;
-                    sellCommodityBox.Text = selectedLocation.SellCommodityName;
+                    stationBox.Enabled = false;
+                    stationBox.Text = "";
+
+                    purchaseBox.Enabled = false;
+                    purchaseBox.Checked = false;
+
+                    sellBox.Enabled = false;
+                    sellBox.Checked = false;
+
+                    purchaseCommodityBox.Enabled = false;
+                    purchaseCommodityBox.Text = "";
+
+                    purchaseCommodityAmountBox.Enabled = false;
+                    purchaseCommodityAmountBox.Value = 0;
+
+                    sellCommodityBox.Enabled = false;
+                    sellCommodityBox.Text = "";
+
+                    sellCommodityAmountBox.Enabled = false;
+                    sellCommodityAmountBox.Value = 0;
                 }
             }
             else
             {
+                // Disable everything
+                systemBox.Enabled = false;
+                systemBox.Text = "";
+
+                stationBox.Enabled = false;
                 stationBox.Text = "";
+
+                purchaseBox.Enabled = false;
+                purchaseBox.Checked = false;
+
+                sellBox.Enabled = false;
+                sellBox.Checked = false;
+
+                purchaseCommodityBox.Enabled = false;
+                purchaseCommodityBox.Text = "";
+
+                purchaseCommodityAmountBox.Enabled = false;
+                purchaseCommodityAmountBox.Value = 0;
+
+                sellCommodityBox.Enabled = false;
+                sellCommodityBox.Text = "";
+
+                sellCommodityAmountBox.Enabled = false;
+                sellCommodityAmountBox.Value = 0;
             }
         }
     }

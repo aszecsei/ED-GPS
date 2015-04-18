@@ -79,7 +79,6 @@
             this.locationsListBox.Name = "locationsListBox";
             this.locationsListBox.Size = new System.Drawing.Size(349, 329);
             this.locationsListBox.TabIndex = 0;
-            this.locationsListBox.SelectedIndexChanged += new System.EventHandler(this.locationsListBox_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -98,7 +97,6 @@
             this.systemBox.Name = "systemBox";
             this.systemBox.Size = new System.Drawing.Size(226, 21);
             this.systemBox.TabIndex = 3;
-            this.systemBox.SelectedIndexChanged += new System.EventHandler(this.systemBox_SelectedIndexChanged);
             // 
             // stationBox
             // 
@@ -108,7 +106,6 @@
             this.stationBox.Name = "stationBox";
             this.stationBox.Size = new System.Drawing.Size(226, 21);
             this.stationBox.TabIndex = 4;
-            this.stationBox.SelectedIndexChanged += new System.EventHandler(this.stationBox_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -129,7 +126,6 @@
             this.purchaseBox.TabIndex = 6;
             this.purchaseBox.Text = "Purchase Commodities";
             this.purchaseBox.UseVisualStyleBackColor = true;
-            this.purchaseBox.CheckedChanged += new System.EventHandler(this.purchaseBox_CheckedChanged);
             // 
             // sellBox
             // 
@@ -141,17 +137,16 @@
             this.sellBox.TabIndex = 7;
             this.sellBox.Text = "Sell Commodities";
             this.sellBox.UseVisualStyleBackColor = true;
-            this.sellBox.CheckedChanged += new System.EventHandler(this.sellBox_CheckedChanged);
             // 
             // purchaseCommodityBox
             // 
+            this.purchaseCommodityBox.CausesValidation = false;
             this.purchaseCommodityBox.Enabled = false;
             this.purchaseCommodityBox.FormattingEnabled = true;
             this.purchaseCommodityBox.Location = new System.Drawing.Point(69, 42);
             this.purchaseCommodityBox.Name = "purchaseCommodityBox";
             this.purchaseCommodityBox.Size = new System.Drawing.Size(309, 21);
             this.purchaseCommodityBox.TabIndex = 9;
-            this.purchaseCommodityBox.SelectedIndexChanged += new System.EventHandler(this.purchaseCommodityBox_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -175,19 +170,47 @@
             // 
             this.purchaseCommodityAmountBox.Enabled = false;
             this.purchaseCommodityAmountBox.Location = new System.Drawing.Point(69, 80);
+            this.purchaseCommodityAmountBox.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.purchaseCommodityAmountBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.purchaseCommodityAmountBox.Name = "purchaseCommodityAmountBox";
             this.purchaseCommodityAmountBox.Size = new System.Drawing.Size(309, 20);
             this.purchaseCommodityAmountBox.TabIndex = 11;
-            this.purchaseCommodityAmountBox.ValueChanged += new System.EventHandler(this.purchaseCommodityAmountBox_ValueChanged);
+            this.purchaseCommodityAmountBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // sellCommodityAmountBox
             // 
             this.sellCommodityAmountBox.Enabled = false;
             this.sellCommodityAmountBox.Location = new System.Drawing.Point(69, 183);
+            this.sellCommodityAmountBox.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.sellCommodityAmountBox.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.sellCommodityAmountBox.Name = "sellCommodityAmountBox";
             this.sellCommodityAmountBox.Size = new System.Drawing.Size(309, 20);
             this.sellCommodityAmountBox.TabIndex = 15;
-            this.sellCommodityAmountBox.ValueChanged += new System.EventHandler(this.sellCommodityAmountBox_ValueChanged);
+            this.sellCommodityAmountBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label5
             // 
@@ -200,13 +223,13 @@
             // 
             // sellCommodityBox
             // 
+            this.sellCommodityBox.CausesValidation = false;
             this.sellCommodityBox.Enabled = false;
             this.sellCommodityBox.FormattingEnabled = true;
             this.sellCommodityBox.Location = new System.Drawing.Point(69, 145);
             this.sellCommodityBox.Name = "sellCommodityBox";
             this.sellCommodityBox.Size = new System.Drawing.Size(309, 21);
             this.sellCommodityBox.TabIndex = 13;
-            this.sellCommodityBox.SelectedIndexChanged += new System.EventHandler(this.sellCommodityBox_SelectedIndexChanged);
             // 
             // label6
             // 
